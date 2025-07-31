@@ -15,6 +15,8 @@ class HomeController extends Controller
         $limit = $request->get('limit');
         $limit = is_numeric($limit) && $limit > 0 && $limit <= 100 ? $limit : 10;
 
+        $startTime = microtime(true);
+
         $books = BooksModel::selectRaw('
             SQL_NO_CACHE
             books.name,
@@ -23,8 +25,8 @@ class HomeController extends Controller
             ROUND(AVG(rating), 2) as avg_rating,
             COUNT(ratings.id) as total_voter
         ')->join('authors', 'authors.id', '=', 'books.author_id')
-            ->leftJoin('categories', 'categories.id', '=', 'books.category_id')
-            ->leftJoin('ratings', 'ratings.book_id', '=', 'books.id');
+            ->join('categories', 'categories.id', '=', 'books.category_id')
+            ->join('ratings', 'ratings.book_id', '=', 'books.id');
 
         if ($search !== '')
             $books = $books->where(function (Builder $builder) use ($search) {
@@ -37,6 +39,11 @@ class HomeController extends Controller
             ->orderBy('avg_rating', 'desc')
             ->limit($limit)
             ->get();
+
+        $endTime = microtime(true);
+        $executionTime = $endTime - $startTime;
+
+        $data['executionTime'] = $executionTime;
 
         $data['title'] = 'Home';
         $data['books'] = $books;
