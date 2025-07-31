@@ -15,8 +15,6 @@ return new class extends Migration {
             $table->string('name', 100);
             $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('category_id');
-            $table->unsignedInteger('total_voter');
-            $table->float('average_rating')->index();
             $table->timestamps();
 
             $table->foreign('author_id')->references('id')->on('authors')->onUpdate('cascade')->onDelete('cascade');
