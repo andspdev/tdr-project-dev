@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\BooksModel;
 use App\Models\RatingsModel;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 
 class RatingsSeeder extends Seeder
 {
@@ -17,12 +17,12 @@ class RatingsSeeder extends Seeder
     {
         $ratings = [];
         $faker = Faker::create();
-        $get_bookIds = BooksModel::pluck('id')->toArray();
+        $get_bookIds = BooksModel::orderBy(DB::raw('RAND()'))->limit(100)->pluck('id')->toArray();
 
         for ($i = 0; $i < 500000; $i++) {
             $ratings[] = [
                 'book_id' => $faker->randomElement($get_bookIds),
-                'rating' => $faker->numberBetween(1, $faker->numberBetween(7, 10)),
+                'rating' => $faker->numberBetween(6, 10),
                 'created_at' => now(),
                 'updated_at' => now()
             ];
