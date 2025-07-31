@@ -18,8 +18,14 @@
     <div class="main-content">
         <div class="flex-grow-1">
             @yield('content')
+            
+            <br />
+            <div class="text-center">
+                Page generated in {{ number_format($executionTime, 2) }}s
+            </div>
         </div>
     </div>
+
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
