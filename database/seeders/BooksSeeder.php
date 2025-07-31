@@ -20,7 +20,7 @@ class BooksSeeder extends Seeder
 
         $books = [];
         $faker = Faker::create();
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 100000; $i++) {
             $books[] = [
                 'name' => $faker->word(),
                 'author_id' => $faker->randomElement($get_authorIds),

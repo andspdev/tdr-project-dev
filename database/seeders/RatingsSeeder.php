@@ -19,16 +19,16 @@ class RatingsSeeder extends Seeder
         $faker = Faker::create();
         $get_bookIds = BooksModel::pluck('id')->toArray();
 
-        for ($i = 0; $i < 10000; $i++) {
+        for ($i = 0; $i < 500000; $i++) {
             $ratings[] = [
                 'book_id' => $faker->randomElement($get_bookIds),
-                'rating' => $faker->numberBetween(1, 10),
+                'rating' => $faker->numberBetween(1, $faker->numberBetween(7, 10)),
                 'created_at' => now(),
                 'updated_at' => now()
             ];
         }
 
-        foreach (array_chunk($ratings, 5000) as $chunk) {
+        foreach (array_chunk($ratings, 10000) as $chunk) {
             RatingsModel::insert($chunk);
         }
     }

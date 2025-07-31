@@ -16,7 +16,7 @@ class AuthorsSeeder extends Seeder
     {
         $authors = [];
         $faker = Faker::create();
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 1000; $i++) {
             $authors[] = [
                 'name' => $faker->name(),
                 'created_at' => now(),
