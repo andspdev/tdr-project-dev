@@ -12,7 +12,7 @@ a {
 }
 
 .main-content {
-    min-height: 100vh;
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,10 +27,14 @@ a {
     max-width: 1000px;
 }
 
-select,
+select {
+    padding: 3px 5px;
+    width: 150px;
+}
+
 .search-text {
     padding: 3px 5px;
-    min-width: 100px;
+    width: 136px;
 }
 
 .mb-1 {
