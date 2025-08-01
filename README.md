@@ -8,12 +8,12 @@ This project was developed and tested using:
 
 **(*) NOTE:**
 
-I am aware that the provided specifications involve a large dataset, and ideally, the ratings or voters should be summarized in a separate table to optimize data retrieval.
+I am aware that the provided specifications involve a large dataset, and ideally, the ratings or voters should be *summarized in a separate table to optimize data retrieval*.
 
 - Table Books -> Table Books Summary -> GET Total AVG Rating & Voter
 - Table Authors -> Table Authors Summary -> GET Total Voter
 
-However, due to the given requirements, I have ensured that this project is built purely using raw queries without any summary tables or additional caching.
+However, due to the given requirements, I have ensured that this project is built purely using raw queries **without any summary tables or additional caching**.
 
 ~ Thank you ~
 
