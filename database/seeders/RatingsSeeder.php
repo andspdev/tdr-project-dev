@@ -17,12 +17,12 @@ class RatingsSeeder extends Seeder
     {
         $ratings = [];
         $faker = Faker::create();
-        $get_bookIds = BooksModel::orderBy(DB::raw('RAND()'))->limit(100)->pluck('id')->toArray();
+        $get_bookIds = BooksModel::select('id')->orderBy(DB::raw('RAND()'))->limit(100)->pluck('id')->toArray();
 
         for ($i = 0; $i < 500000; $i++) {
             $ratings[] = [
                 'book_id' => $faker->randomElement($get_bookIds),
-                'rating' => $faker->numberBetween(6, 10),
+                'rating' => $faker->numberBetween(5, 10),
                 'created_at' => now(),
                 'updated_at' => now()
             ];

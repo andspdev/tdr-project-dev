@@ -27,7 +27,7 @@ class HomeController extends Controller
             DB::raw('COUNT(ratings.id) as total_voter')
         ])->join('authors', 'authors.id', '=', 'books.author_id')
             ->join('categories', 'categories.id', '=', 'books.category_id')
-            ->leftJoin('ratings', 'ratings.book_id', '=', 'books.id');
+            ->join('ratings', 'ratings.book_id', '=', 'books.id');
 
         if ($search !== '')
             $books = $books->where(function (Builder $builder) use ($search) {

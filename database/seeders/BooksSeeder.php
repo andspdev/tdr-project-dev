@@ -30,7 +30,7 @@ class BooksSeeder extends Seeder
             ];
         }
 
-        foreach (array_chunk($books, 2000) as $chunk) {
+        foreach (array_chunk($books, 10000) as $chunk) {
             BooksModel::insert($chunk);
         }
     }
