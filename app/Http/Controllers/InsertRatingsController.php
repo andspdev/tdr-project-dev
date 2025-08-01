@@ -15,6 +15,7 @@ class InsertRatingsController extends Controller
     {
         $data['title'] = 'Insert Rating';
 
+        $startTime = microtime(true);
         $authors = AuthorsModel::orderBy('name')->paginate(10, ['id', 'name'], 'authors_page');
         $data['authors'] = $authors;
 
@@ -30,6 +31,10 @@ class InsertRatingsController extends Controller
             ]);
         $data['books'] = $books;
 
+        $endTime = microtime(true);
+        $executionTime = $endTime - $startTime;
+
+        $data['executionTime'] = $executionTime;
         $data['selected_author'] = $selected_author;
         $data['selected_book'] = $selected_book;
 

@@ -23,11 +23,15 @@ class HomeController extends Controller
             'books.name',
             'categories.name as category_name',
             'authors.name as author_name',
-            DB::raw('ROUND(AVG(rating), 2) as avg_rating'),
-            DB::raw('COUNT(ratings.id) as total_voter')
-        ])->join('authors', 'authors.id', '=', 'books.author_id')
+            DB::raw('ROUND(r.avg_rating, 2) as avg_rating'),
+            DB::raw('r.total_voter')
+        ])
+            ->join('authors', 'authors.id', '=', 'books.author_id')
             ->join('categories', 'categories.id', '=', 'books.category_id')
-            ->join('ratings', 'ratings.book_id', '=', 'books.id');
+            ->join(DB::raw('(
+                SELECT book_id, AVG(rating) AS avg_rating, COUNT(1) AS total_voter FROM ratings
+                GROUP BY book_id
+            ) as r'), 'r.book_id', '=', 'books.id');
 
         if ($search !== '')
             $books = $books->where(function (Builder $builder) use ($search) {
