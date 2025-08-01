@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BooksModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -17,16 +18,16 @@ class HomeController extends Controller
 
         $startTime = microtime(true);
 
-        $books = BooksModel::selectRaw('
-            SQL_NO_CACHE
-            books.name,
-            categories.name as category_name,
-            authors.name as author_name,
-            ROUND(AVG(rating), 2) as avg_rating,
-            COUNT(ratings.id) as total_voter
-        ')->join('authors', 'authors.id', '=', 'books.author_id')
+        $books = BooksModel::select([
+            'books.id',
+            'books.name',
+            'categories.name as category_name',
+            'authors.name as author_name',
+            DB::raw('ROUND(AVG(rating), 2) as avg_rating'),
+            DB::raw('COUNT(ratings.id) as total_voter')
+        ])->join('authors', 'authors.id', '=', 'books.author_id')
             ->join('categories', 'categories.id', '=', 'books.category_id')
-            ->join('ratings', 'ratings.book_id', '=', 'books.id');
+            ->leftJoin('ratings', 'ratings.book_id', '=', 'books.id');
 
         if ($search !== '')
             $books = $books->where(function (Builder $builder) use ($search) {
@@ -35,7 +36,12 @@ class HomeController extends Controller
                     ->orWhereLike('authors.name', $search);
             });
 
-        $books = $books->groupBy('books.id')
+        $books = $books->groupBy([
+            'books.id',
+            'books.name',
+            'categories.name',
+            'authors.name'
+        ])
             ->orderBy('avg_rating', 'desc')
             ->limit($limit)
             ->get();

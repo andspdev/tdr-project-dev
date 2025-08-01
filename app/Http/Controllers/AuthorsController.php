@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuthorsModel;
+use Illuminate\Support\Facades\DB;
 
 class AuthorsController extends Controller
 {
@@ -12,16 +13,19 @@ class AuthorsController extends Controller
 
         $startTime = microtime(true);
 
-        $authors = AuthorsModel::selectRaw('
-            SQL_NO_CACHE
-            authors.name,
-            COUNT(ratings.id) as total_voter
-        ')->join('books', 'books.author_id', '=', 'authors.id')
+        $authors = AuthorsModel::select([
+            'authors.id',
+            'authors.name',
+            DB::raw('COUNT(ratings.id) as total_voter')
+        ])->join('books', 'books.author_id', '=', 'authors.id')
             ->join('ratings', function ($join) {
                 $join->on('ratings.book_id', '=', 'books.id')
                     ->where('ratings.rating', '>', 5);
             })
-            ->groupBy('authors.id')
+            ->groupBy([
+                'authors.id',
+                'authors.name'
+            ])
             ->orderBy('total_voter', 'DESC')
             ->limit(10)
             ->get();

@@ -37,7 +37,7 @@
                             <button type="submit">Search</button><br /><br />
 
                             <a href="{{ route('top_authors') }}">Top 10 Most Famous Author</a><br />
-                            <a href="">Insert Rating</a><br />
+                            <a href="{{ route('insert_rating.index') }}">Insert Rating</a><br />
                         </td>
                     </tr>
                 </tbody>
@@ -47,6 +47,12 @@
         @if ($books->isEmpty())
             No data added.
         @else
+            @if (session()->has('success_save_rating'))
+                <div class="mb-1">
+                    <span style="color: green">{{ session()->get('success_save_rating') }}</span>
+                </div>
+            @endif
+
             <table class="table table-bordered">
                 <thead>
                     <tr>

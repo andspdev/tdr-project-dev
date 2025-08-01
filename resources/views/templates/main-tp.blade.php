@@ -18,11 +18,13 @@
     <div class="main-content">
         <div class="flex-grow-1">
             @yield('content')
-            
-            <br />
-            <div class="text-center">
-                Page generated in {{ number_format($executionTime, 2) }}s
-            </div>
+
+            @isset($executionTime)
+                <br />
+                <div class="text-center">
+                    Page generated in {{ number_format($executionTime, 2) }}s
+                </div>
+            @endisset
         </div>
     </div>
 
