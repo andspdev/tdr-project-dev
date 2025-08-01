@@ -1,12 +1,23 @@
-# Project Installation Guide
+# Welcome to the Installation Guide
 
 This project was developed and tested using:
 
--   Laravel 12.21
--   MySQL 8.0.42
--   No caching system is used.
+- Laravel 12.21
+- MySQL 8.0.42
+- No caching system is used.
 
----
+**(*) NOTE:**
+
+I am aware that the provided specifications involve a large dataset, and ideally, the ratings or voters should be summarized in a separate table to optimize data retrieval.
+
+- Table Books -> Table Books Summary -> GET Total AVG Rating & Voter
+- Table Authors -> Table Authors Summary -> GET Total Voter
+
+However, due to the given requirements, I have ensured that this project is built purely using raw queries without any summary tables or additional caching.
+
+~ Thank you ~
+
+## Installation Guide
 
 To ensure smooth setup and operation of this Laravel project, please follow the installation steps below:
 
@@ -41,7 +52,7 @@ To ensure smooth setup and operation of this Laravel project, please follow the 
     php artisan migrate:fresh --seed
     ```
 
-    **(\*)** Please wait until the process is completed. Avoid cancelling to ensure the migration and seeding run properly.
+    **(*)** Please wait until the process is completed. Avoid cancelling to ensure the migration and seeding run properly.
 
     The seeder will generate the following fake data:
 
