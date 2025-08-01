@@ -7,6 +7,7 @@ use App\Models\BooksModel;
 use App\Models\CategoriesModel;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 
 class BooksSeeder extends Seeder
 {
@@ -20,18 +21,19 @@ class BooksSeeder extends Seeder
 
         $books = [];
         $faker = Faker::create();
+        $current_time = now();
         for ($i = 0; $i < 100000; $i++) {
             $books[] = [
                 'name' => $faker->word(),
                 'author_id' => $faker->randomElement($get_authorIds),
                 'category_id' => $faker->randomElement($get_categoryIds),
-                'created_at' => now(),
-                'updated_at' => now()
+                'created_at' => $current_time,
+                'updated_at' => $current_time
             ];
         }
 
         foreach (array_chunk($books, 10000) as $chunk) {
-            BooksModel::insert($chunk);
+            DB::table('books')->insert($chunk);
         }
     }
 }
