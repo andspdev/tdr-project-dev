@@ -16,17 +16,11 @@ class AuthorsController extends Controller
         $authors = AuthorsModel::select([
             'authors.id',
             'authors.name',
-            DB::raw('COUNT(ratings.id) as total_voter')
+            DB::raw('COUNT(r.id) as total_voter')
         ])->join('books', 'books.author_id', '=', 'authors.id')
-            ->join('ratings', function ($join) {
-                $join->on('ratings.book_id', '=', 'books.id')
-                    ->where('ratings.rating', '>', 5);
-            })
-            ->groupBy([
-                'authors.id',
-                'authors.name'
-            ])
-            ->orderBy('total_voter', 'DESC')
+            ->join(DB::raw('(SELECT * FROM ratings WHERE rating > 5) as r'), 'r.book_id', '=', 'books.id')
+            ->groupBy('authors.id', 'authors.name')
+            ->orderByDesc('total_voter')
             ->limit(10)
             ->get();
 
